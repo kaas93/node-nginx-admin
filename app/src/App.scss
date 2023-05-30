@@ -1,0 +1,21 @@
+.route {
+    position: relative;
+    min-height: 100vh;
+}
+
+.page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1em;
+    margin: auto;
+    height: 100%;
+
+    @media (min-width: 40em) {
+        max-width: 75vw;
+    }
+
+    @media (min-width: 120em) {
+        max-width: 90em;
+    }
+}
