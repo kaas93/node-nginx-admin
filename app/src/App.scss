@@ -1,15 +1,23 @@
-.route {
-    position: relative;
-    min-height: 100vh;
-}
-
-.page {
+.app {
     display: flex;
     justify-content: center;
     align-items: center;
+    min-height: 100vh;
+
+    &.mirror {
+        transform: scaleX(-1);
+    }
+}
+
+.route {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+.page {
     padding: 1em;
     margin: auto;
-    height: 100%;
 
     @media (min-width: 40em) {
         max-width: 75vw;

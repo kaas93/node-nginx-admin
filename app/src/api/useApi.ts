@@ -32,7 +32,25 @@ export const useAuthenticatedApi = () => {
         return await formatResponse<Vhost[]>(response);
     }, [authenticated, jwt, logout]);
 
-    return { fetchVhosts, fetchVhost }
+    const createVhost = useCallback(async (vhost: Omit<Vhost, "id">) => {
+        if (!authenticated) return [];
+        const response = await rawFetch(`/api/vhosts`, { method: "POST", jwt, body: vhost });
+        if (response.status === 401) return logout();
+    }, [authenticated, jwt, logout]);
+
+    const updateVhost = useCallback(async (vhost: Vhost) => {
+        if (!authenticated) return [];
+        const response = await rawFetch(`/api/vhosts/${vhost.id}`, { method: "PUT", jwt, body: vhost });
+        if (response.status === 401) return logout();
+    }, [authenticated, jwt, logout]);
+
+    const deleteVhost = useCallback(async (id: string) => {
+        if (!authenticated) return [];
+        const response = await rawFetch(`/api/vhosts/${id}`, { method: "DELETE", jwt });
+        if (response.status === 401) return logout();
+    }, [authenticated, jwt, logout]);
+
+    return { fetchVhosts, fetchVhost, createVhost, updateVhost, deleteVhost }
 }
 
 interface FetchOpts {

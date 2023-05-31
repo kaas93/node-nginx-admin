@@ -4,14 +4,17 @@ import { ReactNode } from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
 import "./App.scss";
 import { useAuth } from "./auth/useAuth";
+import { useEggs } from "./eggs/useEggs";
+import { Loading } from "./loading/Loading";
 import { Login } from "./login/Login";
 import { Overview } from "./overview/Overview";
 
 const App: React.FC = () => {
+    const { eggs } = useEggs();
     return (
         <CssVarsProvider defaultMode="dark">
             <CssBaseline />
-            <div className="app">
+            <div className={`app ${eggs.join(" ")}`}>
                 <Routes>
                     <Route
                         path="/"
@@ -42,7 +45,8 @@ interface AuthenticateProps {
 }
 
 const Authenticate: React.FC<AuthenticateProps> = ({ element }) => {
-    const { authenticated } = useAuth();
+    const { initialized, authenticated } = useAuth();
+    if (!initialized) return <Loading />;
     if (!authenticated) return <Navigate to="/login" />;
     return <>{element}</>;
 };

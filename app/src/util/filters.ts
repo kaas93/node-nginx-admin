@@ -1,0 +1,1 @@
+export const distinct = <T>(it: T, index: number, list: T[]) => list.indexOf(it) === index;
