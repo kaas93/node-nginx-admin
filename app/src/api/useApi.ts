@@ -50,7 +50,19 @@ export const useAuthenticatedApi = () => {
         if (response.status === 401) return logout();
     }, [authenticated, jwt, logout]);
 
-    return { fetchVhosts, fetchVhost, createVhost, updateVhost, deleteVhost }
+    const secureVhost = useCallback(async (id: string) => {
+        if (!authenticated) return [];
+        const response = await rawFetch(`/api/vhosts/${id}/secure`, { method: "POST", jwt });
+        if (response.status === 401) return logout();
+    }, [authenticated, jwt, logout])
+
+    const installWordpress = useCallback(async (id: string) => {
+        if (!authenticated) return [];
+        const response = await rawFetch(`/api/vhosts/${id}/wordpress`, { method: "POST", jwt });
+        if (response.status === 401) return logout();
+    }, [authenticated, jwt, logout])
+
+    return { fetchVhosts, fetchVhost, createVhost, updateVhost, deleteVhost, secureVhost, installWordpress }
 }
 
 interface FetchOpts {

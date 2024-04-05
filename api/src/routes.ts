@@ -1,6 +1,6 @@
 import { FastifyInstance } from "fastify";
 import { auth } from "./endpoints/auth.endpoint";
-import { getVhosts, getVhost, createVhost, updateVhost, deleteVhost, secureVhost } from "./endpoints/vhosts.endpoint";
+import { getVhosts, getVhost, createVhost, updateVhost, deleteVhost, secureVhost, installWordpress } from "./endpoints/vhosts.endpoint";
 
 import { jwtVerifyRequestHook } from "./plugins";
 
@@ -13,5 +13,6 @@ export const registerRoutes = (server: FastifyInstance) => {
         .put("/api/vhosts/:id", { onRequest: [jwtVerifyRequestHook] }, updateVhost)
         .delete("/api/vhosts/:id", { onRequest: [jwtVerifyRequestHook] }, deleteVhost)
         .post("/api/vhosts/:id/secure", { onRequest: [jwtVerifyRequestHook] }, secureVhost)
+        .post("/api/vhosts/:id/wordpress", { onRequest: [jwtVerifyRequestHook] }, installWordpress)
         ;
 };

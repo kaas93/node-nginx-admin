@@ -1,6 +1,7 @@
 import { FastifyReply, FastifyRequest, RouteGenericInterface } from "fastify";
 import { certbotService } from "../certbot/certbot.service";
 import { vhostsService } from "../vhosts/vhosts.service";
+import { wordpressService } from "../wordpress/wordpress.service";
 
 export const getVhosts = async (_: FastifyRequest<GetVhostRequest>, reply: FastifyReply) => {
     reply.status(200).send(await vhostsService.getVhosts());
@@ -81,7 +82,23 @@ export const secureVhost = async (request: FastifyRequest<SecureVhostRequest>, r
     const { id } = request.params;
     if (!id) return { statusCode: 400, body: "No vhost id provided!" };
     const vhost = vhostsService.getVhost(id);
+    if (!vhost) return { statusCode: 400, body: "No vhost found for given id!" }
 
-    await certbotService.secureVhost(vhost?.name);
+    await certbotService.secureVhost(vhost.name, `www.${vhost.name}`);
     reply.status(200);
+};
+
+interface InstallWordpressRequest extends RouteGenericInterface {
+    Params: {
+        id: string;
+    };
+}
+
+export const installWordpress = async (request: FastifyRequest<InstallWordpressRequest>, reply: FastifyReply) => {
+    const { id } = request.params;
+    if (!id) return { statusCode: 400, body: "No vhost id provided!" };
+    const vhost = vhostsService.getVhost(id);
+    if (!vhost) return { statusCode: 400, body: "No vhost found for given id!" }
+
+    await wordpressService.installOn(vhost)
 }

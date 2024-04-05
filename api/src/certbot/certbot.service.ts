@@ -5,7 +5,7 @@ class CertbotService {
 
     secureVhost(...domainNames: string[]) {
         const domainNameOptions = domainNames.map(it => `-d ${it}`);
-        this.commandExecutor.execute(`sudo certbot --nginx --redirect ${domainNameOptions}`);
+        this.commandExecutor.execute(`sudo certbot --nginx --redirect ${domainNameOptions.join(' ')}`);
     }
 }
 

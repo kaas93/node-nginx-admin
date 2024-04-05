@@ -1,7 +1,6 @@
 import { createHash } from "crypto";
 import config from "../config/config";
 import { NginxService, nginxService } from "../nginx/nginx.service";
-import { Maybe } from "../util/maybe";
 import { fsVhostsRepository } from "./fs-vhosts.repository";
 import { inMemoryVhostsRepository } from "./in-memory-vhosts.repository";
 import { Vhost } from "./vhost.model";

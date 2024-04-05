@@ -6,6 +6,7 @@ interface Config {
     appUrl: string;
     jwtSecret: string;
     vhostsPath: string;
+    wwwDir: string;
     production: boolean;
     password: string;
 }

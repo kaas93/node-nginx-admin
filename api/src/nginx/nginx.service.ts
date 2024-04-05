@@ -4,11 +4,11 @@ export class NginxService {
     constructor(private nginxCommandExecutor: CommandExecutor) { }
 
     async reload() {
-        await this.nginxCommandExecutor.execute("sudo service nginx reload");
+        await this.nginxCommandExecutor.execute("service nginx reload");
     }
 
     async test() {
-        await this.nginxCommandExecutor.execute("sudo nginx -t");
+        await this.nginxCommandExecutor.execute("nginx -t");
     }
 }
 

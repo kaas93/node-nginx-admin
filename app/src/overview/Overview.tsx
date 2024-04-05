@@ -1,4 +1,4 @@
-import { Add, Delete, Edit } from "@mui/icons-material";
+import { Add, Delete, Edit, Lock, Web } from "@mui/icons-material";
 import { Box, IconButton, Modal, ModalDialog, Table, Tooltip } from "@mui/joy";
 import { useEffect, useState } from "react";
 import { useAuthenticatedApi } from "../api/useApi";
@@ -16,7 +16,7 @@ const NEW_VHOST: Vhost = {
 };
 
 export const Overview: React.FC = () => {
-    const { fetchVhosts } = useAuthenticatedApi();
+    const { fetchVhosts, secureVhost, installWordpress } = useAuthenticatedApi();
     const [vhosts, setVhosts] = useState<Vhost[] | void>([]);
     const [loading, setLoading] = useState(true);
     const [open, setOpen] = useState<boolean>(false);
@@ -73,6 +73,22 @@ export const Overview: React.FC = () => {
                                         <Tooltip arrow title="Edit vhost">
                                             <IconButton onClick={() => openModal("edit", vhost)}>
                                                 <Edit />
+                                            </IconButton>
+                                        </Tooltip>
+                                        <Tooltip arrow title="Secure vhost">
+                                            <IconButton
+                                                onClick={async () => await secureVhost(vhost.id)}
+                                            >
+                                                <Lock />
+                                            </IconButton>
+                                        </Tooltip>
+                                        <Tooltip arrow title="Install wordpress">
+                                            <IconButton
+                                                onClick={async () =>
+                                                    await installWordpress(vhost.id)
+                                                }
+                                            >
+                                                <Web />
                                             </IconButton>
                                         </Tooltip>
                                         <Tooltip arrow title="Delete vhost">
